@@ -1,0 +1,27 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: A function to ingest NASA FIRMS
+
+Resources:
+  IngestNASAFirms:
+    Type: AWS::Serverless::Function
+    Properties:
+      Description: Ingesting NASA FIRMS data
+      CodeUri: lambda/.
+      Handler: ingest_nasa_firms.lambda_handler
+      Runtime: python3.11
+      Timeout: 10
+      Layers:
+        - !Ref APILayer
+      Environment:
+        Variables:
+          NASA_FIRMS_MAP_KEY: !Sub ${file(env.json):NASA_FIRMS_MAP_KEY}
+
+  APILayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: python-api-layer
+      Description: dependencies for python api app
+      ContentUri: package/.
+      CompatibleRuntimes:
+        - python3.11
