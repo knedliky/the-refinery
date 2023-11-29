@@ -18,7 +18,7 @@ def lambda_handler(event, context):
     return {"status_code": 200, "body": content}
 
 
-# Event should contain the following:
+# Scheduled Events from CloudWatch should contain the following parameters:
 # {
 #   "date": "2020-11-06",
 #   "country": "ZAF",
